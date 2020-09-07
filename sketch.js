@@ -9,6 +9,8 @@ var stand1, stand2;
 var ball;
 var slingShot;
 var polygon_img;
+var score = 0;
+var bg;
 
 function preload() {
   polygon_img = loadImage("polygon.png");
@@ -21,6 +23,8 @@ function setup() {
   ground = new Stand(450, 390, 900, 20);
   stand1 = new Stand(390, 300, 250, 10);
   stand2 = new Stand(700, 200, 200, 10);
+
+  bg = "royalBlue";
 
   block1 = new Block(300, 275, 30, 40);
   block2 = new Block(330, 275, 30, 40);
@@ -58,11 +62,13 @@ function setup() {
   World.add(world, ball);
 
   slingShot = new Slingshot(this.ball, { x: 100, y: 200 });
+  getTime();
 }
 function draw() {
-  background("royalBlue");
+  background(bg);
+  fill("white");
   textSize(20);
-
+  text("Score: " + score, 750, 50);
   fill("brown");
   ground.display();
   stand1.display();
@@ -105,6 +111,33 @@ function draw() {
   imageMode(CENTER);
   image(polygon_img, ball.position.x, ball.position.y, 40, 40);
 
+  //score for every object
+  block1.score();
+  block2.score();
+  block3.score();
+  block4.score();
+  block5.score();
+  block6.score();
+  block7.score();
+  block8.score();
+  block9.score();
+  block11.score();
+  block12.score();
+  block10.score();
+  block13.score();
+  block14.score();
+  block15.score();
+  block16.score();
+  blocks1.score();
+  blocks2.score();
+  blocks3.score();
+  blocks4.score();
+  blocks5.score();
+  blocks6.score();
+  blocks8.score();
+  blocks7.score();
+  blocks9.score();
+
   slingShot.display();
 }
 function mouseDragged() {
@@ -117,5 +150,20 @@ function mouseReleased() {
 function keyPressed() {
   if (keyCode === 32) {
     slingShot.attach(this.ball);
+  }
+}
+
+async function getTime() {
+  var response = await fetch(
+    "http://worldtimeapi.org/api/timezone/Asia/Kolkata"
+  );
+  var responseJson = await response.json();
+  var datetime = responseJson.datetime;
+  var hour = datetime.slice(11, 13);
+  console.log(datetime);
+  if (hour >= 6 && hour <= 18) {
+    bg = "royalBlue";
+  } else {
+    bg = 0;
   }
 }
